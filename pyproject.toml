@@ -18,6 +18,15 @@ dependencies = [
     "python-dotenv>=1.0.0",
 ]
 
+[project.optional-dependencies]
+# Optional stretch goal: a real local vector database (Day 2, step 3).
+# Kept separate so the core workshop stays zero-setup. Install with:
+#   uv sync --extra vectordb
+vectordb = [
+    "langchain-chroma>=0.1.4",
+    "fastembed>=0.4.0",
+]
+
 [project.scripts]
 testing-agentic-ai = "testing_agentic_ai:main"
 

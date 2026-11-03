@@ -19,31 +19,80 @@ from langchain_community.retrievers import BM25Retriever
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 ROOT = Path(__file__).resolve().parents[1]
+DB_DIR = ROOT / "day_2" / "chroma_db"  # the local vector database folder
 load_dotenv(ROOT / ".env")
 
 
-# @st.cache_resource builds the model + retriever ONCE, not on every message.
+def load_chunks():
+    """Read data/*.md and split into small chunks (shared by both methods)."""
+    docs = []
+    for md in (ROOT / "data").glob("*.md"):
+        docs.extend(TextLoader(str(md), encoding="utf-8").load())
+    return RecursiveCharacterTextSplitter(
+        chunk_size=500, chunk_overlap=50
+    ).split_documents(docs)
+
+
+# @st.cache_resource builds each thing ONCE, not on every message.
 @st.cache_resource
-def setup():
-    model = ChatOpenAI(
+def get_model():
+    return ChatOpenAI(
         model=os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3.5-lightning:free"),
         base_url="https://openrouter.ai/api/v1",
         api_key=os.environ["OPENROUTER_API_KEY"],
         temperature=0,
     )
-    docs = []
-    for md in (ROOT / "data").glob("*.md"):
-        docs.extend(TextLoader(str(md), encoding="utf-8").load())
-    chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50).split_documents(docs)
-    retriever = BM25Retriever.from_documents(chunks)
+
+
+@st.cache_resource
+def get_bm25_retriever():
+    """Keyword search (BM25) - zero setup, in memory. This is the default."""
+    retriever = BM25Retriever.from_documents(load_chunks())
     retriever.k = 2
-    return model, retriever
+    return retriever
 
 
-model, retriever = setup()
+@st.cache_resource
+def get_vector_retriever():
+    """Vector search (Chroma) - matches meaning, saved to disk in chroma_db/.
+
+    Needs the optional extras:  uv sync --extra vectordb
+    """
+    from langchain_community.embeddings import FastEmbedEmbeddings
+    from langchain_chroma import Chroma
+
+    embeddings = FastEmbedEmbeddings()
+    if DB_DIR.exists():
+        db = Chroma(persist_directory=str(DB_DIR), embedding_function=embeddings)
+    else:
+        db = Chroma.from_documents(
+            load_chunks(), embedding=embeddings, persist_directory=str(DB_DIR)
+        )
+    return db.as_retriever(search_kwargs={"k": 2})
+
+
+model = get_model()
 
 st.title("🎓 University Knowledge Assistant")
 st.caption("Answers come from approved documents only — with sources.")
+
+# --- Pick the retrieval method. This is the "swap one node" idea, live. ---
+method = st.sidebar.radio(
+    "Retrieval method",
+    ["Keyword (BM25)", "Vector DB (Chroma)"],
+    help="BM25 matches words. Chroma matches meaning (needs: uv sync --extra vectordb).",
+)
+
+if method == "Vector DB (Chroma)":
+    try:
+        retriever = get_vector_retriever()
+        st.sidebar.success("Using the Chroma vector database (saved in day_2/chroma_db/).")
+    except ImportError:
+        st.sidebar.error("Vector DB not installed. Run:  uv sync --extra vectordb")
+        st.stop()
+else:
+    retriever = get_bm25_retriever()
+    st.sidebar.info("Using in-memory keyword search (BM25). No database on disk.")
 
 # Keep the chat history in the session so it survives each rerun.
 if "history" not in st.session_state:

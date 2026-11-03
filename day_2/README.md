@@ -14,6 +14,10 @@ Run the steps in order:
 python day_2/01_langgraph_basics.py       # the shape: state, nodes, edges
 python day_2/02_knowledge_assistant.py    # the assistant as a graph (type 'quit')
 streamlit run day_2/app.py                # a web chat page to demo
+
+# OPTIONAL stretch — a real local vector database (needs extra packages):
+uv sync --extra vectordb                  # one-time install
+python day_2/03_vector_db_optional.py     # BM25 -> embeddings, saved to disk
 ```
 
 ---
@@ -54,6 +58,35 @@ Try these three questions to see each path:
 ## Step 3 — A web page (`app.py`)
 A simple **Streamlit** chat page so teams can demo the assistant without building a
 full frontend. It shows the answer **and the sources used**.
+
+The sidebar has a **Retrieval method** switch — *Keyword (BM25)* or *Vector DB (Chroma)* —
+so you can flip between the two live and see that the rest of the app is unchanged.
+
+## Step 3b — OPTIONAL: a real vector database (`03_vector_db_optional.py`)
+Everything so far used **BM25**, which matches *words*. A vector database matches
+*meaning*: each chunk becomes a list of numbers (an **embedding**), and search finds
+the closest ones.
+
+```bash
+uv sync --extra vectordb                  # installs langchain-chroma + fastembed
+python day_2/03_vector_db_optional.py
+```
+
+- A small embedding model downloads **once** (~130MB, no API key).
+- The database is **saved to disk** in `day_2/chroma_db/` — the 2nd run loads instantly.
+- **Only the retriever line changes** vs `day_1/03_rag_hint.py`:
+  `BM25Retriever.from_documents(...)` → `db.as_retriever(...)`. That is the whole point —
+  swap one node, keep the graph.
+
+```mermaid
+flowchart LR
+    D[data/*.md] --> C[split into chunks]
+    C --> E[embed each chunk]
+    E --> V[(Chroma vector DB<br/>day_2/chroma_db/)]
+    Q[question] --> QE[embed question]
+    QE --> V
+    V --> R[closest chunks<br/>+ sources]
+```
 
 ---
 

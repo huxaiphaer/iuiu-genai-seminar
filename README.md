@@ -67,6 +67,11 @@ python day_1/01_chat.py
 Get a free OpenRouter key at <https://openrouter.ai/keys>. The default model is free
 (`nvidia/nemotron-3.5-lightning:free`). **Never commit your real `.env`.**
 
+> **Optional stretch (vector database):** the core workshop uses zero-setup keyword
+> search (BM25). To try a real local vector database on Day 2, run
+> `uv sync --extra vectordb` — this adds Chroma + a small embedding model and enables
+> `day_2/03_vector_db_optional.py` and the vector-DB switch in `app.py`.
+
 ---
 
 ## What's inside
@@ -82,7 +87,8 @@ day_1/   LangChain  — a straight line
 day_2/   LangGraph  — a graph that decides
   01_langgraph_basics.py    state, nodes, edges (the shape)
   02_knowledge_assistant.py the SAME assistant, now with routing + human review
-  app.py                    a Streamlit chat page to demo it
+  app.py                    a Streamlit chat page (switch BM25 / vector DB)
+  03_vector_db_optional.py  OPTIONAL: a real local vector DB (Chroma)
 
 data/    small, approved SAMPLE documents (fictional — safe to share)
 docs/    diagrams for the sessions
