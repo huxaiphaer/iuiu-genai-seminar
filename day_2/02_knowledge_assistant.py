@@ -161,7 +161,9 @@ graph = builder.compile()
 
 
 if __name__ == "__main__":
-    print("University Knowledge Assistant (LangGraph). Type 'quit' to exit.\n")
+    print("University Knowledge Assistant (LangGraph). Type 'quit' to exit.")
+    print("Examples:  What are the library hours?  |  What is 15 * 4?  |  "
+          "I think my grade is wrong\n")
     while True:
         q = input("You: ").strip()
         if q.lower() in {"quit", "exit", ""}:

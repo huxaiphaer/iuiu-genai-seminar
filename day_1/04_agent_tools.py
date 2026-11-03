@@ -33,9 +33,8 @@ _OPS = {
     ast.Add: operator.add,
     ast.Sub: operator.sub,
     ast.Mult: operator.mul,
-    ast.Div: operator.truediv,
-    ast.Pow: operator.pow,
-    ast.USub: operator.neg,
+    ast.Div: operator.truediv,  # division
+    ast.Pow: operator.pow, # power
 }
 
 
@@ -75,5 +74,11 @@ def ask(question: str):
 
 
 if __name__ == "__main__":
-    ask("What is 12 * (7 + 3)?")           # the model should pick the calculator
-    ask("What's the weather in Kampala?")  # ...and here, the weather tool
+    # Type your own question and watch which tool the agent picks.
+    print("Agent with tools (calculator + weather). Type 'quit' to exit.")
+    print("Examples:  What is 12 * (7 + 3)?   |   What's the weather in Kampala?\n")
+    while True:
+        question = input("You: ").strip()
+        if question.lower() in {"quit", "exit", ""}:
+            break
+        ask(question)

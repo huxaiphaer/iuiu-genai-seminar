@@ -27,7 +27,10 @@ model = ChatOpenAI(
 )
 
 # The simplest possible call: give it text, get a reply back.
-# (A simple, everyday question is the clearest way to see it work.)
-reply = model.invoke("Why is the sky blue? Answer in one simple sentence.")
+# Type your own question, or just press Enter to use the example hint.
+EXAMPLE = "Why is the sky blue? Answer in one simple sentence."
+question = input(f"Ask the model anything [Enter for: {EXAMPLE}]: ").strip() or EXAMPLE
 
-print(reply.content)
+reply = model.invoke(question)
+
+print("\n" + reply.content)

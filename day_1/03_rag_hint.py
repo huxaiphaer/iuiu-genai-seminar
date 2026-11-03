@@ -72,6 +72,8 @@ def answer(question: str) -> str:
 
 
 if __name__ == "__main__":
-    q = "What are the library opening hours?"
-    print("Q:", q)
+    # Type your own question, or press Enter to use the example hint.
+    EXAMPLE = "What are the library opening hours?"
+    q = input(f"Ask about the university [Enter for: {EXAMPLE}]: ").strip() or EXAMPLE
+    print("\nQ:", q)
     print("A:", answer(q))

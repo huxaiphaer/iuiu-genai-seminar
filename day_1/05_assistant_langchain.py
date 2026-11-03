@@ -62,7 +62,8 @@ def answer(question: str) -> str:
 
 
 if __name__ == "__main__":
-    print("University Knowledge Assistant (LangChain). Type 'quit' to exit.\n")
+    print("University Knowledge Assistant (LangChain). Type 'quit' to exit.")
+    print("Examples:  What are the library hours?   |   Who won the 2010 World Cup?\n")
     while True:
         question = input("You: ").strip()
         if question.lower() in {"quit", "exit", ""}:

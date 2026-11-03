@@ -43,4 +43,7 @@ builder.add_edge("report", END)        # report -> finish
 graph = builder.compile()
 
 if __name__ == "__main__":
-    graph.invoke({"text": "hello langgraph"})
+    # Type your own text to measure, or press Enter to use the example hint.
+    EXAMPLE = "hello langgraph"
+    text = input(f"Text to measure [Enter for: {EXAMPLE}]: ").strip() or EXAMPLE
+    graph.invoke({"text": text})

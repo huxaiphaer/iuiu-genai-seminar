@@ -38,8 +38,12 @@ prompt = ChatPromptTemplate.from_messages(
 # 2) A chain: prompt -> model -> plain text. Read the | as "then".
 chain = prompt | model | StrOutputParser()
 
-print("=== Templated answer ===")
-print(chain.invoke({"topic": "why it rains"}))
+# Type your own topic, or press Enter to use the example hint.
+TOPIC_EXAMPLE = "why it rains"
+topic = input(f"Topic to explain [Enter for: {TOPIC_EXAMPLE}]: ").strip() or TOPIC_EXAMPLE
+
+print("\n=== Templated answer ===")
+print(chain.invoke({"topic": topic}))
 
 
 # 3) Structured output: make the model fill a typed shape, not free text.
@@ -49,9 +53,12 @@ class Person(BaseModel):
     age: int = Field(description="The person's age in years")
 
 
-person = model.with_structured_output(Person).invoke(
-    "My name is Sara and I am 20 years old."
-)
+SENTENCE_EXAMPLE = "My name is Sara and I am 20 years old."
+sentence = input(
+    f"\nA sentence with a name and age [Enter for: {SENTENCE_EXAMPLE}]: "
+).strip() or SENTENCE_EXAMPLE
+
+person = model.with_structured_output(Person).invoke(sentence)
 
 print("\n=== Structured output ===")
 print("Name:", person.name)

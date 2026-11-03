@@ -96,6 +96,7 @@ def answer(question: str) -> str:
 if __name__ == "__main__":
     # Try a question worded DIFFERENTLY from the documents. Vector search can
     # still find it by meaning, where exact-keyword BM25 might miss.
-    q = "When can I use the study space in the evening?"
-    print("Q:", q)
+    EXAMPLE = "When can I use the study space in the evening?"
+    q = input(f"Ask about the university [Enter for: {EXAMPLE}]: ").strip() or EXAMPLE
+    print("\nQ:", q)
     print("A:", answer(q))
