@@ -1,0 +1,280 @@
+<title>Seminar Session Diagrams</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Layout: a single-scroll teaching reference. Theme-aware page chrome;
+     diagrams sit on a constant light "whiteboard" so they stay legible on a projector. */
+  :root {
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --fg: #1b1d2a;
+    --muted: #5b5f73;
+    --line: #e2e4ee;
+    --day1: #4f46e5;   /* LangChain  = indigo */
+    --day2: #0e9f6e;   /* LangGraph  = green  */
+    --board: #fbfbfd;  /* diagram surface, same in both themes */
+    --board-ink: #1b1d2a;
+    --board-line: #d9dcea;
+    --display: "Fraunces", Georgia, serif;
+    --body: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12131b;
+      --surface: #1b1d2a;
+      --fg: #eceef6;
+      --muted: #a2a7bd;
+      --line: #2b2e3f;
+      --day1: #8b84ff;
+      --day2: #41d7a0;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12131b;
+    --surface: #1b1d2a;
+    --fg: #eceef6;
+    --muted: #a2a7bd;
+    --line: #2b2e3f;
+    --day1: #8b84ff;
+    --day2: #41d7a0;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--body);
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 2.5rem 4rem;
+  }
+
+  header.top { margin-bottom: 2.5rem; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.05;
+    text-wrap: balance;
+    margin: 0.35rem 0 0.6rem;
+  }
+  .lede { color: var(--muted); max-width: 60ch; font-size: 1.05rem; }
+
+  nav.jump {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: 1.4rem;
+  }
+  nav.jump a {
+    font-family: var(--mono); font-size: 0.8rem;
+    text-decoration: none; color: var(--fg);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 0.3rem 0.8rem;
+  }
+  nav.jump a:hover { border-color: var(--day1); color: var(--day1); }
+
+  section { margin-top: 2.8rem; }
+  .tag {
+    display: inline-block; font-family: var(--mono);
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border-radius: 6px; color: #fff;
+  }
+  .tag.d1 { background: var(--day1); }
+  .tag.d2 { background: var(--day2); }
+  h2 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.4rem, 3.4vw, 2rem);
+    margin: 0.6rem 0 0.3rem; text-wrap: balance;
+  }
+  .note { color: var(--muted); max-width: 62ch; margin: 0 0 1rem; }
+
+  figure {
+    margin: 1.2rem 0 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  figcaption {
+    font-family: var(--mono); font-size: 0.78rem;
+    color: var(--muted);
+    padding: 0.7rem 1rem; border-bottom: 1px solid var(--line);
+  }
+  .board { background: var(--board); overflow-x: auto; padding: 1.1rem; }
+  .board pre.mermaid {
+    margin: 0; min-width: 0; text-align: center;
+    font-family: var(--mono);
+  }
+
+  .divider { height: 1px; background: var(--line); border: 0; margin: 3rem 0 0; }
+  footer { margin-top: 2rem; color: var(--muted); font-size: 0.85rem; }
+  code { font-family: var(--mono); font-size: 0.85em;
+         background: var(--surface); border: 1px solid var(--line);
+         border-radius: 5px; padding: 0.05rem 0.35rem; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">IUIU · Building Generative AI Applications</p>
+    <h1>Chain vs Graph, drawn out</h1>
+    <p class="lede">The diagrams behind the two-day seminar. One project — a University
+      Knowledge Assistant — built first as a straight LangChain pipeline, then rebuilt
+      as a LangGraph graph that can decide, use a tool, and ask a human.</p>
+    <nav class="jump">
+      <a href="#picture">Big picture</a>
+      <a href="#day1">Day 1 · LangChain</a>
+      <a href="#day2">Day 2 · LangGraph</a>
+      <a href="#vs">Chain vs Graph</a>
+    </nav>
+  </header>
+
+  <section id="picture">
+    <span class="tag d1" style="background:var(--muted)">Overview</span>
+    <h2>What we are building</h2>
+    <p class="note">A student asks a question. The assistant decides what kind of question
+      it is, finds the answer in approved documents or a safe tool, asks a human when the
+      question is sensitive, and replies with its source.</p>
+    <figure>
+      <figcaption>The assistant, end to end</figcaption>
+      <div class="board">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryBorderColor':'#4f46e5','primaryTextColor':'#1b1d2a','secondaryColor':'#e7faf2','lineColor':'#7b7f98','fontFamily':'IBM Plex Mono, monospace','fontSize':'15px'}}}%%
+flowchart LR
+    Q[Student asks<br/>a question] --> R{Router<br/>intent &amp; risk}
+    R -->|knowledge| K[Search approved<br/>documents]
+    R -->|math| T[Use a safe tool]
+    R -->|sensitive| H[Human review]
+    K --> A[Grounded answer<br/>with sources]
+    T --> A
+    H --> A
+</pre>
+      </div>
+    </figure>
+  </section>
+
+  <hr class="divider">
+
+  <section id="day1">
+    <span class="tag d1">Day 1 · LangChain</span>
+    <h2>A straight line</h2>
+    <p class="note">In LangChain we wire steps with the pipe <code>|</code>. The Day 1
+      assistant treats every question the same way: retrieve, then answer.</p>
+    <figure>
+      <figcaption>The LangChain assistant — same path every time</figcaption>
+      <div class="board">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryBorderColor':'#4f46e5','primaryTextColor':'#1b1d2a','lineColor':'#7b7f98','fontFamily':'IBM Plex Mono, monospace','fontSize':'15px'}}}%%
+flowchart LR
+    Q[question] --> R[retrieve] --> A[grounded answer<br/>+ source]
+</pre>
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>Inside "retrieve" — a first taste of RAG (keyword / BM25)</figcaption>
+      <div class="board">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryBorderColor':'#4f46e5','primaryTextColor':'#1b1d2a','lineColor':'#7b7f98','fontFamily':'IBM Plex Mono, monospace','fontSize':'15px'}}}%%
+flowchart LR
+    D[Documents<br/>in data/] --> S[Split into<br/>small chunks]
+    S --> I[Keyword index<br/>BM25]
+    Q[Question] --> I
+    I --> C[Top matching<br/>chunks]
+    C --> P[Prompt: answer<br/>using ONLY these]
+    P --> M[Model] --> A[Grounded<br/>answer]
+</pre>
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>A simple agent — the model decides when to call a tool</figcaption>
+      <div class="board">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef2ff','primaryBorderColor':'#4f46e5','primaryTextColor':'#1b1d2a','lineColor':'#7b7f98','fontFamily':'IBM Plex Mono, monospace','fontSize':'15px'}}}%%
+flowchart LR
+    U[User question] --> M[Model]
+    M -->|needs a tool| T[Run the tool]
+    T --> M
+    M -->|done| A[Final answer]
+</pre>
+      </div>
+    </figure>
+  </section>
+
+  <hr class="divider">
+
+  <section id="day2">
+    <span class="tag d2">Day 2 · LangGraph</span>
+    <h2>A graph that decides</h2>
+    <p class="note">LangGraph builds the app from <strong>state</strong> (shared data),
+      <strong>nodes</strong> (steps) and <strong>edges</strong> (arrows). Now a router
+      sends each question down a different path, and sensitive ones pause for a human.</p>
+    <figure>
+      <figcaption>The same assistant, rebuilt as a graph</figcaption>
+      <div class="board">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#e7faf2','primaryBorderColor':'#0e9f6e','primaryTextColor':'#1b1d2a','lineColor':'#7b7f98','fontFamily':'IBM Plex Mono, monospace','fontSize':'15px'}}}%%
+flowchart TD
+    START((start)) --> R{router<br/>intent &amp; risk}
+    R -->|knowledge| RE[retrieve<br/>from docs] --> AN[grounded answer]
+    R -->|math| CA[calculate] --> E((end))
+    R -->|sensitive| HU[human review<br/>approve / correct] --> E
+    AN --> E
+</pre>
+      </div>
+    </figure>
+    <p class="note">Try one question of each kind:
+      <code>What are the library hours?</code> (knowledge),
+      <code>What is 15 * 4?</code> (math),
+      <code>I think my grade is wrong</code> (sensitive → human review).</p>
+  </section>
+
+  <hr class="divider">
+
+  <section id="vs">
+    <span class="tag" style="background:var(--muted)">The one idea</span>
+    <h2>Chain vs Graph, side by side</h2>
+    <p class="note">A chain does the same steps every time. A graph looks at the question
+      and chooses a path — including stopping to ask a human. Start with a chain; reach
+      for a graph when you need decisions, tools, retries and review.</p>
+    <figure>
+      <figcaption>Left: Day 1 chain &nbsp;·&nbsp; Right: Day 2 graph</figcaption>
+      <div class="board">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#f1f2f8','primaryBorderColor':'#7b7f98','primaryTextColor':'#1b1d2a','lineColor':'#7b7f98','fontFamily':'IBM Plex Mono, monospace','fontSize':'14px'}}}%%
+flowchart TB
+    subgraph CHAIN[Day 1 · chain · one path]
+        direction LR
+        a[question] --> b[retrieve] --> c[answer]
+    end
+    subgraph GRAPH[Day 2 · graph · chooses a path]
+        direction LR
+        d[question] --> e{router}
+        e -->|knowledge| f[retrieve] --> g[answer]
+        e -->|math| h[calculate] --> g
+        e -->|sensitive| i[human review] --> g
+    end
+</pre>
+      </div>
+    </figure>
+  </section>
+
+  <footer>
+    Facilitator: Lutaaya Huzaifah Idris · Islamic University in Uganda ·
+    sample documents only, no real student data.
+  </footer>
+</div>

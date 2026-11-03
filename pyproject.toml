@@ -1,0 +1,26 @@
+[project]
+name = "testing-agentic-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Huzaifah", email = "huzaifah.lutaaya@parcellab.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=1.4.8",
+    "langchain-openai>=0.3.0",
+    "langchain-community>=0.3.0",
+    "langgraph>=0.2.0",
+    "rank-bm25>=0.2.2",
+    "pypdf>=5.0.0",
+    "streamlit>=1.40.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+testing-agentic-ai = "testing_agentic_ai:main"
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
