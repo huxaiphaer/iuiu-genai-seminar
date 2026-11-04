@@ -11,13 +11,16 @@ A straight chain cannot make those choices. A **graph** can.
 Run the steps in order:
 
 ```bash
-python day_2/01_langgraph_basics.py       # the shape: state, nodes, edges
-python day_2/02_knowledge_assistant.py    # the assistant as a graph (type 'quit')
-streamlit run day_2/app.py                # a web chat page to demo
+python knowledge_base/day_2/01_langgraph_basics.py       # the shape: state, nodes, edges
+python knowledge_base/day_2/02_knowledge_assistant.py    # the assistant as a graph (type 'quit')
+streamlit run knowledge_base/day_2/app.py                # a web chat page to demo
 
 # OPTIONAL stretch — a real local vector database (needs extra packages):
 uv sync --extra vectordb                  # one-time install
-python day_2/03_vector_db_optional.py     # BM25 -> embeddings, saved to disk
+python knowledge_base/day_2/03_vector_db_optional.py     # BM25 -> embeddings, saved to disk
+
+# CLOSING CHALLENGE — a banking assistant with human-in-the-loop:
+python knowledge_base/day_2/04_banking_agent.py          # tools + human approval for withdrawals
 ```
 
 ---
@@ -69,7 +72,7 @@ the closest ones.
 
 ```bash
 uv sync --extra vectordb                  # installs langchain-chroma + fastembed
-python day_2/03_vector_db_optional.py
+python knowledge_base/day_2/03_vector_db_optional.py
 ```
 
 - A small embedding model downloads **once** (~130MB, no API key).
@@ -87,6 +90,30 @@ flowchart LR
     QE --> V
     V --> R[closest chunks<br/>+ sources]
 ```
+
+---
+
+## Closing challenge — a banking assistant (`04_banking_agent.py`)
+A take-home project that reuses everything in one place: a **LangChain agent**
+with three tools — **check balance**, **deposit**, **withdraw** — where money
+leaving the account (a **withdrawal**) **pauses for human approval** first.
+
+```mermaid
+flowchart LR
+    U[You: "withdraw 40"] --> A{Agent picks a tool}
+    A -->|check_balance| B[read balance]
+    A -->|deposit| C[add money]
+    A -->|withdraw| H[HUMAN approves?]
+    H -->|yes| D[subtract money]
+    H -->|no| X[declined]
+```
+
+- `check_balance` / `deposit` run automatically.
+- `withdraw` prints `[APPROVAL NEEDED]` and waits for a human `yes/no`.
+- The balance is in memory and resets each run (no real bank!).
+
+**Great exercises for the room:** add a daily withdrawal limit, log every
+transaction, or only require approval for amounts over a threshold.
 
 ---
 

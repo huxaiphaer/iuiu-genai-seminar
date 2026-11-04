@@ -6,11 +6,11 @@ Today we learn the building blocks and finish with a working assistant that is
 Run the steps **in order**. Each one is a small, self-contained file.
 
 ```bash
-python day_1/01_chat.py      # talk to a model
-python day_1/02_prompts.py   # prompt templates + typed output
-python day_1/03_rag_hint.py  # answer from documents, with a source
-python day_1/04_agent_tools.py          # let the model use tools
-python day_1/05_assistant_langchain.py  # the capstone (type 'quit' to exit)
+python knowledge_base/day_1/01_chat.py      # talk to a model
+python knowledge_base/day_1/02_prompts.py   # prompt templates + typed output
+python knowledge_base/day_1/03_rag_hint.py  # answer from documents, with a source
+python knowledge_base/day_1/04_agent_tools.py          # let the model use tools
+python knowledge_base/day_1/05_assistant_langchain.py  # the capstone (type 'quit' to exit)
 ```
 
 ---

@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
 # Load OPENROUTER_API_KEY and OPENROUTER_MODEL from the .env file at the repo root.
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 # The "chat model" is our connection to the LLM.
 # OpenRouter speaks the OpenAI API, so we use ChatOpenAI and simply point it

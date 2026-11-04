@@ -3,6 +3,13 @@
 Starter code for the two-day practical seminar at the **Islamic University in Uganda (IUIU)**.
 Facilitator: **Lutaaya Huzaifah Idris**.
 
+> **Two tracks, same topics.** Pick one — both teach the same ideas (chat, prompts,
+> RAG, tools, LangGraph routing, human-in-the-loop):
+> - 🏦 **[Sandbox Bank Assistant](banking/README.md)** (`banking/`) — deposits,
+>   withdrawals and human-approved transactions. *The recommended, more engaging track.*
+> - 🎓 **[University Knowledge Assistant](knowledge_base/README.md)** (`knowledge_base/`) —
+>   answers student questions from approved documents.
+
 ## What we're building
 
 By the end of the two days, each team has a working **AI University Knowledge Assistant** —
@@ -60,8 +67,8 @@ uv sync
 # 2. Create your .env from the template and paste your OpenRouter key
 cp .env.example .env        # then edit .env
 
-# 3. Check it works
-python day_1/01_chat.py
+# 3. Check it works (bank track shown; swap in knowledge_base/ for the other)
+python banking/day_1/01_chat.py
 ```
 
 Get a free OpenRouter key at <https://openrouter.ai/keys>. The default model is free
@@ -70,32 +77,30 @@ Get a free OpenRouter key at <https://openrouter.ai/keys>. The default model is 
 > **Optional stretch (vector database):** the core workshop uses zero-setup keyword
 > search (BM25). To try a real local vector database on Day 2, run
 > `uv sync --extra vectordb` — this adds Chroma + a small embedding model and enables
-> `day_2/03_vector_db_optional.py` and the vector-DB switch in `app.py`.
+> the `03_vector_db_optional.py` file in either track.
 
 ---
 
 ## What's inside
 
 ```
-day_1/   LangChain  — a straight line
-  01_chat.py                talk to a model
-  02_prompts.py             prompt templates + typed output
-  03_rag_hint.py            retrieval: answer from documents, with sources
-  04_agent_tools.py         tools: let the model use a calculator / weather
-  05_assistant_langchain.py the Day 1 capstone assistant (one straight path)
+banking/              🏦 Bank track (recommended)
+  day_1/              LangChain — a straight line
+  day_2/              LangGraph — routing, transactions, human approval
+  data/               the bank's FAQ + policies (fictional)
+  README.md
 
-day_2/   LangGraph  — a graph that decides
-  01_langgraph_basics.py    state, nodes, edges (the shape)
-  02_knowledge_assistant.py the SAME assistant, now with routing + human review
-  app.py                    a Streamlit chat page (switch BM25 / vector DB)
-  03_vector_db_optional.py  OPTIONAL: a real local vector DB (Chroma)
+knowledge_base/       🎓 University track
+  day_1/              LangChain — a straight line
+  day_2/              LangGraph — routing + human review
+  data/               sample student documents (fictional)
+  README.md
 
-data/    small, approved SAMPLE documents (fictional — safe to share)
-docs/    diagrams for the sessions
+docs/                 diagrams for the sessions
 ```
 
-See **[day_1/README.md](day_1/README.md)** and **[day_2/README.md](day_2/README.md)**
-for the diagrams and a step-by-step walk-through.
+Each track has its own `README.md` (with diagrams and a step-by-step walk-through)
+and the same five Day-1 steps + Day-2 graph. Both share this repo's `uv sync` and `.env`.
 
 ---
 

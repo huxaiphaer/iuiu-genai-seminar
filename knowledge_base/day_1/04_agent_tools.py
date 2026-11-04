@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 model = ChatOpenAI(
     model=os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3.5-lightning:free"),

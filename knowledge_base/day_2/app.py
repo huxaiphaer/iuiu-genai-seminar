@@ -11,8 +11,14 @@ Run it:   streamlit run day_2/app.py
 import os
 from pathlib import Path
 
+import warnings
+
 import streamlit as st
 from dotenv import load_dotenv
+
+# Keep the terminal clean: hide the "langchain-community is being sunset"
+# deprecation notice. The library still works fine.
+warnings.filterwarnings("ignore", message=r".*langchain-community.*sunset.*")
 from langchain_openai import ChatOpenAI
 from langchain_community.document_loaders import TextLoader
 from langchain_community.retrievers import BM25Retriever
@@ -20,7 +26,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 ROOT = Path(__file__).resolve().parents[1]
 DB_DIR = ROOT / "day_2" / "chroma_db"  # the local vector database folder
-load_dotenv(ROOT / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 
 def load_chunks():

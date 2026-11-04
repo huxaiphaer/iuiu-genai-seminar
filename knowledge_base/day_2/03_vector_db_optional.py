@@ -24,6 +24,12 @@ Run it:   python day_2/03_vector_db_optional.py
 import os
 from pathlib import Path
 
+import warnings
+
+# Keep the workshop terminal clean: hide the "langchain-community is being
+# sunset" deprecation notice. The library still works fine.
+warnings.filterwarnings("ignore", message=r".*langchain-community.*sunset.*")
+
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_community.document_loaders import TextLoader
@@ -32,7 +38,7 @@ from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 ROOT = Path(__file__).resolve().parents[1]
-load_dotenv(ROOT / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 # Where the local vector database lives on disk. Delete this folder to rebuild.
 DB_DIR = ROOT / "day_2" / "chroma_db"

@@ -22,6 +22,12 @@ import re
 from pathlib import Path
 from typing import TypedDict
 
+import warnings
+
+# Keep the workshop terminal clean: hide the "langchain-community is being
+# sunset" deprecation notice. The library still works fine.
+warnings.filterwarnings("ignore", message=r".*langchain-community.*sunset.*")
+
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_community.document_loaders import TextLoader
@@ -30,7 +36,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langgraph.graph import StateGraph, START, END
 
 ROOT = Path(__file__).resolve().parents[1]
-load_dotenv(ROOT / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 model = ChatOpenAI(
     model=os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3.5-lightning:free"),
