@@ -6,7 +6,7 @@ taught through one fun project: an **AI bank assistant**.
 > *Sandbox Bank* is fictional — there is no real money anywhere. The account
 > details live in a plain JSON file (`data/account.json`), our **"database without
 > a database"**: open it and watch the balance change as you deposit and withdraw.
-> To start fresh, set the balance back to `100.0` (or run `git checkout banking/data/account.json`).
+> To start fresh, set the balance back to `500000.0` (or run `git checkout banking/data/account.json`).
 
 ## What we're building
 
@@ -14,7 +14,7 @@ By the end of the two days you have a bank assistant that:
 
 | Behaviour | Example |
 |---|---|
-| **Does transactions** | *"Deposit 50"*, *"What's my balance?"*, *"Withdraw 40"* |
+| **Does transactions** | *"Deposit 100000"*, *"What's my balance?"*, *"Withdraw 200000"* |
 | **Asks a human first** | A **withdrawal** pauses for human approval before money leaves |
 | **Answers from policy docs** | *"What is the daily withdrawal limit?"* → grounded answer **with source** |
 | **Escalates risky cases** | *"I lost my card"* → routed to a **human** |
@@ -30,7 +30,7 @@ We build it **twice**, so the difference between the frameworks is obvious:
 
 Four messages, four behaviours:
 
-1. **Transaction** — `Withdraw 40` → `[APPROVAL NEEDED]` → human says yes → done
+1. **Transaction** — `Withdraw 200000` → `[APPROVAL NEEDED]` → human says yes → done
 2. **Policy** — `What is the daily withdrawal limit?` → grounded answer **with source**
 3. **Sensitive** — `I lost my card` → **routed to a human**
 4. **Balance** — `What's my balance?` → read straight from the account

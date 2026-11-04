@@ -19,4 +19,4 @@ Phone support is open Monday to Friday, 8:00 AM to 8:00 PM, and Saturday 9:00 AM
 1:00 PM. Support is closed on Sundays and public holidays.
 
 ## ATMs
-Sandbox Bank ATMs are free to use. Using another bank's ATM costs $2 per withdrawal.
+Sandbox Bank ATMs are free to use. Using another bank's ATM costs UGX 2,000 per withdrawal.

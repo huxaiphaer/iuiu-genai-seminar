@@ -49,7 +49,7 @@ Try these to see each path:
 | Message | Path |
 |---|---|
 | `What's my balance?` | transaction → balance |
-| `Withdraw 40` | transaction → **human approval** → withdraw |
+| `Withdraw 200000` | transaction → **human approval** → withdraw |
 | `What is the daily withdrawal limit?` | policy → retrieve |
 | `I lost my card` | sensitive → **human review** |
 

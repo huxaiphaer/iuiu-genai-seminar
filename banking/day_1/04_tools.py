@@ -47,7 +47,7 @@ def save_account(account: dict) -> None:
 def check_balance() -> str:
     """Return the current account balance."""
     account = load_account()
-    return f"Your balance is ${account['balance']:.2f}."
+    return f"Your balance is UGX {account['balance']:,.0f}."
 
 
 def deposit(amount: float) -> str:
@@ -57,7 +57,7 @@ def deposit(amount: float) -> str:
     account = load_account()
     account["balance"] += amount
     save_account(account)
-    return f"Deposited ${amount:.2f}. New balance: ${account['balance']:.2f}."
+    return f"Deposited UGX {amount:,.0f}. New balance: UGX {account['balance']:,.0f}."
 
 
 def withdraw(amount: float) -> str:
@@ -66,10 +66,10 @@ def withdraw(amount: float) -> str:
         return "Withdrawal amount must be positive."
     account = load_account()
     if amount > account["balance"]:
-        return f"Insufficient funds. Your balance is only ${account['balance']:.2f}."
+        return f"Insufficient funds. Your balance is only UGX {account['balance']:,.0f}."
     account["balance"] -= amount
     save_account(account)
-    return f"Withdrew ${amount:.2f}. New balance: ${account['balance']:.2f}."
+    return f"Withdrew UGX {amount:,.0f}. New balance: UGX {account['balance']:,.0f}."
 
 
 agent = create_agent(
@@ -90,7 +90,7 @@ def ask(question: str):
 
 if __name__ == "__main__":
     print("Bank Assistant with tools (LangChain). Type 'quit' to exit.")
-    print("Examples:  What's my balance?  |  Deposit 50  |  Withdraw 30\n")
+    print("Examples:  What's my balance?  |  Deposit 100000  |  Withdraw 50000\n")
     while True:
         q = input("You: ").strip()
         if q.lower() in {"quit", "exit", ""}:

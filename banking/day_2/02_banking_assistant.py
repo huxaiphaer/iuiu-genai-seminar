@@ -121,28 +121,28 @@ def do_transaction(state: State) -> dict:
     account = load_account()
 
     if "balance" in action:
-        return {"answer": f"Your balance is ${account['balance']:.2f}."}
+        return {"answer": f"Your balance is UGX {account['balance']:,.0f}."}
 
     if "deposit" in action:
         if amount <= 0:
             return {"answer": "Please tell me a positive amount to deposit."}
         account["balance"] += amount
         save_account(account)
-        return {"answer": f"Deposited ${amount:.2f}. New balance: ${account['balance']:.2f}."}
+        return {"answer": f"Deposited UGX {amount:,.0f}. New balance: UGX {account['balance']:,.0f}."}
 
     if "withdraw" in action:
         if amount <= 0:
             return {"answer": "Please tell me a positive amount to withdraw."}
         if amount > account["balance"]:
-            return {"answer": f"Insufficient funds. Your balance is only ${account['balance']:.2f}."}
+            return {"answer": f"Insufficient funds. Your balance is only UGX {account['balance']:,.0f}."}
         # HUMAN IN THE LOOP: a person must approve money leaving the account.
-        print(f"\n[APPROVAL NEEDED] The assistant wants to withdraw ${amount:.2f}.")
+        print(f"\n[APPROVAL NEEDED] The assistant wants to withdraw UGX {amount:,.0f}.")
         ok = input("Approve this withdrawal? (yes/no): ").strip().lower()
         if ok not in {"yes", "y"}:
             return {"answer": "The withdrawal was declined by the human reviewer."}
         account["balance"] -= amount
         save_account(account)
-        return {"answer": f"Withdrew ${amount:.2f}. New balance: ${account['balance']:.2f}."}
+        return {"answer": f"Withdrew UGX {amount:,.0f}. New balance: UGX {account['balance']:,.0f}."}
 
     return {"answer": "I can check your balance, make a deposit, or make a withdrawal."}
 
@@ -203,7 +203,7 @@ graph = builder.compile()
 
 if __name__ == "__main__":
     print("Sandbox Bank Assistant (LangGraph + human-in-the-loop). Type 'quit' to exit.")
-    print("Examples:  What's my balance?  |  Withdraw 40  |  "
+    print("Examples:  What's my balance?  |  Withdraw 200000  |  "
           "What is the withdrawal limit?  |  I lost my card\n")
     while True:
         q = input("You: ").strip()

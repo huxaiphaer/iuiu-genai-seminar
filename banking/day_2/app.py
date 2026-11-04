@@ -85,7 +85,7 @@ if "pending" not in st.session_state:
 # The balance is NOT kept in session state -- it is read fresh from the JSON
 # file, so it is always correct and shared with the terminal scripts.
 account = load_account()
-st.sidebar.metric("Current balance", f"${account['balance']:.2f}")
+st.sidebar.metric("Current balance", f"UGX {account['balance']:,.0f}")
 st.sidebar.caption(f"{account['name']} · {account['account_number']}")
 
 
@@ -130,7 +130,7 @@ for role, text in st.session_state.history:
 # If a withdrawal is waiting, show the HUMAN approval buttons.
 if st.session_state.pending is not None:
     amount = st.session_state.pending
-    st.warning(f"Approval needed: withdraw ${amount:.2f}?")
+    st.warning(f"Approval needed: withdraw UGX {amount:,.0f}?")
     col1, col2 = st.columns(2)
     if col1.button("✅ Approve", key="approve"):
         acct = load_account()
@@ -138,7 +138,7 @@ if st.session_state.pending is not None:
         save_account(acct)
         st.session_state.pending = None
         st.session_state.history.append(
-            ("assistant", f"Withdrew ${amount:.2f}. New balance: ${acct['balance']:.2f}.")
+            ("assistant", f"Withdrew UGX {amount:,.0f}. New balance: UGX {acct['balance']:,.0f}.")
         )
         st.rerun()
     if col2.button("❌ Decline", key="decline"):
@@ -161,22 +161,22 @@ if question:
         action, amount = intent.action.lower(), intent.amount
         acct = load_account()
         if "balance" in action:
-            reply = f"Your balance is ${acct['balance']:.2f}."
+            reply = f"Your balance is UGX {acct['balance']:,.0f}."
         elif "deposit" in action:
             if amount <= 0:
                 reply = "Please tell me a positive amount to deposit."
             else:
                 acct["balance"] += amount
                 save_account(acct)
-                reply = f"Deposited ${amount:.2f}. New balance: ${acct['balance']:.2f}."
+                reply = f"Deposited UGX {amount:,.0f}. New balance: UGX {acct['balance']:,.0f}."
         elif "withdraw" in action:
             if amount <= 0:
                 reply = "Please tell me a positive amount to withdraw."
             elif amount > acct["balance"]:
-                reply = f"Insufficient funds. Your balance is only ${acct['balance']:.2f}."
+                reply = f"Insufficient funds. Your balance is only UGX {acct['balance']:,.0f}."
             else:
                 st.session_state.pending = amount
-                reply = f"A withdrawal of ${amount:.2f} needs your approval below."
+                reply = f"A withdrawal of UGX {amount:,.0f} needs your approval below."
         else:
             reply = "I can check your balance, make a deposit, or make a withdrawal."
     elif route == "sensitive":

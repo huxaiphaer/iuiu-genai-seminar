@@ -30,14 +30,14 @@ model = ChatOpenAI(
     temperature=0,
 )
 
-# The account lives in memory and resets every run. Everyone starts with $100.
-ACCOUNT = {"balance": 100.0}
+# The account lives in memory and resets every run. Everyone starts with UGX 500,000.
+ACCOUNT = {"balance": 500000.0}
 
 
 # --- Tool 1: read-only, always safe to run -------------------------------
 def check_balance() -> str:
     """Return the current account balance."""
-    return f"Your balance is ${ACCOUNT['balance']:.2f}."
+    return f"Your balance is UGX {ACCOUNT['balance']:,.0f}."
 
 
 # --- Tool 2: money coming IN -- allowed automatically ---------------------
@@ -46,7 +46,7 @@ def deposit(amount: float) -> str:
     if amount <= 0:
         return "Deposit amount must be positive."
     ACCOUNT["balance"] += amount
-    return f"Deposited ${amount:.2f}. New balance: ${ACCOUNT['balance']:.2f}."
+    return f"Deposited UGX {amount:,.0f}. New balance: UGX {ACCOUNT['balance']:,.0f}."
 
 
 # --- Tool 3: money going OUT -- needs a HUMAN to approve ------------------
@@ -55,16 +55,16 @@ def withdraw(amount: float) -> str:
     if amount <= 0:
         return "Withdrawal amount must be positive."
     if amount > ACCOUNT["balance"]:
-        return f"Insufficient funds. Your balance is only ${ACCOUNT['balance']:.2f}."
+        return f"Insufficient funds. Your balance is only UGX {ACCOUNT['balance']:,.0f}."
 
     # HUMAN IN THE LOOP: pause and let a person approve money leaving.
-    print(f"\n[APPROVAL NEEDED] The assistant wants to withdraw ${amount:.2f}.")
+    print(f"\n[APPROVAL NEEDED] The assistant wants to withdraw UGX {amount:,.0f}.")
     ok = input("Approve this withdrawal? (yes/no): ").strip().lower()
     if ok not in {"yes", "y"}:
         return "The withdrawal was declined by the human reviewer."
 
     ACCOUNT["balance"] -= amount
-    return f"Withdrew ${amount:.2f}. New balance: ${ACCOUNT['balance']:.2f}."
+    return f"Withdrew UGX {amount:,.0f}. New balance: UGX {ACCOUNT['balance']:,.0f}."
 
 
 # Hand the model the three tools and tell it how to behave.
@@ -86,7 +86,7 @@ def ask(question: str):
 
 if __name__ == "__main__":
     print("Banking Assistant (LangChain + human-in-the-loop). Type 'quit' to exit.")
-    print("Examples:  What's my balance?  |  Deposit 50  |  Withdraw 40\n")
+    print("Examples:  What's my balance?  |  Deposit 100000  |  Withdraw 200000\n")
     while True:
         q = input("You: ").strip()
         if q.lower() in {"quit", "exit", ""}:

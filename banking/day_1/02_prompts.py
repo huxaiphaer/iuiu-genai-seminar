@@ -4,8 +4,8 @@ Banking Seminar · Day 1 (LangChain) — Step 2: Prompts & structured output.
 Two ideas:
   1. A PROMPT TEMPLATE: a fixed role + a blank we fill in.
   2. STRUCTURED OUTPUT: make the model return tidy FIELDS, not a paragraph.
-     Here we turn a plain instruction like "deposit fifty dollars" into
-     {action: "deposit", amount: 50} -- data our code can actually use.
+     Here we turn a plain instruction like "deposit fifty thousand shillings"
+     into {action: "deposit", amount: 50000} -- data our code can actually use.
 
 Run it:   python banking/day_1/02_prompts.py
 """
@@ -56,7 +56,7 @@ class Transaction(BaseModel):
     amount: float = Field(description="The amount of money, or 0 if none is mentioned")
 
 
-SENTENCE_EXAMPLE = "I want to deposit fifty dollars"
+SENTENCE_EXAMPLE = "I want to deposit fifty thousand shillings"
 sentence = input(
     f"\nA banking instruction [Enter for: {SENTENCE_EXAMPLE}]: "
 ).strip() or SENTENCE_EXAMPLE

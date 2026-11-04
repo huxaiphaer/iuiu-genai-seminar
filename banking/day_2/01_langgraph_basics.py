@@ -17,7 +17,7 @@ from typing import TypedDict
 
 from langgraph.graph import StateGraph, START, END
 
-REVIEW_LIMIT = 500.0  # withdrawals this size or larger get a human review
+REVIEW_LIMIT = 1_000_000.0  # withdrawals this size (UGX) or larger get a human review
 
 
 # 1) STATE: the data that flows through the graph.
@@ -33,7 +33,7 @@ def classify(state: State) -> dict:
 
 
 def report(state: State) -> dict:
-    print(f"A withdrawal of ${state['amount']:.2f} is {state['note']}.")
+    print(f"A withdrawal of UGX {state['amount']:,.0f} is {state['note']}.")
     return {}
 
 
@@ -47,6 +47,6 @@ builder.add_edge("report", END)         # report -> finish
 graph = builder.compile()
 
 if __name__ == "__main__":
-    EXAMPLE = "750"
-    raw = input(f"Enter a withdrawal amount [Enter for: {EXAMPLE}]: ").strip() or EXAMPLE
+    EXAMPLE = "1500000"
+    raw = input(f"Enter a withdrawal amount in UGX [Enter for: {EXAMPLE}]: ").strip() or EXAMPLE
     graph.invoke({"amount": float(raw)})

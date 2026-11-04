@@ -19,8 +19,8 @@ Send one message, get a reply. `model.invoke(question)` is the heart of everythi
 
 ## Step 2 — Prompts & structured output (`02_prompts.py`)
 - A **prompt template** = a fixed role + a `{blank}` you fill in.
-- **Structured output** turns *"deposit fifty dollars"* into tidy fields:
-  `{action: "deposit", amount: 50}` — data your code can use. (A `Literal` locks
+- **Structured output** turns *"deposit fifty thousand shillings"* into tidy fields:
+  `{action: "deposit", amount: 50000}` — data your code can use. (A `Literal` locks
   `action` to `balance / deposit / withdraw`.)
 
 ## Step 3 — RAG over the bank's policies (`03_rag_policies.py`)
